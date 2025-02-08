@@ -17,8 +17,9 @@ export const fetchAllCountries = createAsyncThunk<
 >('countries/fetchAll', async (_, { rejectWithValue }) => {
   try {
     const response = await countriesApi.getAllCountries();
-    return response;
+    return response.data;
   } catch (err) {
+      console.log(err);
     return rejectWithValue('Failed to fetch countries');
   }
 });
@@ -30,8 +31,9 @@ export const fetchCountryByCode = createAsyncThunk<
 >('countries/fetchByCode', async (code, { rejectWithValue }) => {
   try {
     const response = await countriesApi.getCountryByCode(code);
-    return response[0]; // API returns an array with single country
+    return response.data[0];
   } catch (err) {
+    console.log(err);
     return rejectWithValue('Failed to fetch country');
   }
 });
