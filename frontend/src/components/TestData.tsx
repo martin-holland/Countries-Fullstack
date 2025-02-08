@@ -73,7 +73,7 @@ export const TestData = () => {
         Status: Connected | Last Updated: {new Date().toLocaleString()}
       </Typography>
 
-      {data.length > 0 && <DynamicTable data={data} />}
+      {data?.length > 0 && <DynamicTable data={data} />}
     </Box>
   );
 };

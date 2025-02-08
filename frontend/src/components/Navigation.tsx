@@ -13,6 +13,9 @@ export const Navigation = () => {
           My App
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
+          <Button color="inherit" component={RouterLink} to="/countries">
+            Countries
+          </Button>
           <Button color="inherit" component={RouterLink} to="/">
             Home
           </Button>
