@@ -2,9 +2,9 @@ import { Country } from '../../types/country';
 import { api } from '../axios';
 
 export const countriesApi = {
-  getAllCountries: () => 
-    api.get<Country[]>('https://restcountries.com/v3.1/all'),
+  getAllCountries: (): Promise<Country[]> => 
+    api.get('https://restcountries.com/v3.1/all'),
     
-  getCountryByCode: (code: string) =>
-    api.get<Country[]>(`https://restcountries.com/v3.1/alpha/${code}`),
+  getCountryByCode: (code: string): Promise<Country> =>
+    api.get(`https://restcountries.com/v3.1/alpha/${code}`),
 }; 

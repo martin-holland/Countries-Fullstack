@@ -12,16 +12,22 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
+import { weatherApi } from "../../api/services/weather";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
+  fetchAllCountries,
   selectAllCountries,
   selectCountriesError,
   selectCountriesLoading,
 } from "../../store/slices/countriesSlice";
+import { WeatherData } from "../../types/weather";
+import { WeatherInfo } from "../Weather/WeatherInfo";
 
 export const CountryDetail = () => {
   const { name } = useParams<{ name: string }>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const countries = useAppSelector(selectAllCountries);
   const loading = useAppSelector(selectCountriesLoading);
@@ -30,6 +36,39 @@ export const CountryDetail = () => {
   const country = countries.find(
     (c) => c.name.common.toLowerCase() === decodeURIComponent(name || "")
   );
+
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
+
+  console.log("weatherData: ", weatherData);
+
+  useEffect(() => {
+    if (!country) {
+      dispatch(fetchAllCountries());
+    }
+  }, [country, dispatch]);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!country?.capital?.[0]) return;
+
+      setWeatherLoading(true);
+      setWeatherError(null);
+
+      try {
+        const data = await weatherApi.getWeatherByCity(country.capital[0]);
+        setWeatherData(data as unknown as WeatherData);
+      } catch (err) {
+        console.log(err);
+        setWeatherError("Failed to fetch weather data");
+      } finally {
+        setWeatherLoading(false);
+      }
+    };
+
+    fetchWeather();
+  }, [country]);
 
   if (loading) {
     return (
@@ -116,6 +155,11 @@ export const CountryDetail = () => {
           </Box>
         </CardContent>
       </Card>
+      <WeatherInfo
+        weatherData={weatherData}
+        loading={weatherLoading}
+        error={weatherError}
+      />
     </Box>
   );
 };

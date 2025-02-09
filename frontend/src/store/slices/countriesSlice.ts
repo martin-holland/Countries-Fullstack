@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { countriesApi } from '../../api/services/countries';
-import { Country, CountryState } from '../../types/country';
+import { CountryState } from '../../types/country';
 import type { RootState } from '../store';
 
 const initialState: CountryState = {
@@ -10,33 +10,31 @@ const initialState: CountryState = {
   selectedCountry: null,
 };
 
-export const fetchAllCountries = createAsyncThunk<
-  Country[],
-  void,
-  { rejectValue: string }
->('countries/fetchAll', async (_, { rejectWithValue }) => {
-  try {
+export const fetchAllCountries = createAsyncThunk('countries/fetchAll', async () => {
     const response = await countriesApi.getAllCountries();
-    return response.data;
-  } catch (err) {
-      console.log(err);
-    return rejectWithValue('Failed to fetch countries');
-  }
+    return response;
 });
 
-export const fetchCountryByCode = createAsyncThunk<
-  Country,
-  string,
-  { rejectValue: string }
->('countries/fetchByCode', async (code, { rejectWithValue }) => {
-  try {
+export const fetchCountryByCode = createAsyncThunk('countries/fetchByCode', async (code: string) => {
     const response = await countriesApi.getCountryByCode(code);
-    return response.data[0];
-  } catch (err) {
-    console.log(err);
-    return rejectWithValue('Failed to fetch country');
-  }
+    return response;
 });
+
+
+
+// export const fetchCountryByCode = createAsyncThunk<
+//   Country,
+//   string,
+//   { rejectValue: string }
+// >('countries/fetchByCode', async (code, { rejectWithValue }) => {
+//   try {
+//     const response = await countriesApi.getCountryByCode(code);
+//     return response.data[0];
+//   } catch (err) {
+//     console.log(err);
+//     return rejectWithValue('Failed to fetch country');
+//   }
+// });
 
 const countriesSlice = createSlice({
   name: 'countries',
@@ -59,7 +57,7 @@ const countriesSlice = createSlice({
       })
       .addCase(fetchAllCountries.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'An error occurred';
+        state.error = action.payload as string || 'An error occurred';
       })
       // Fetch single country
       .addCase(fetchCountryByCode.pending, (state) => {
@@ -72,7 +70,7 @@ const countriesSlice = createSlice({
       })
       .addCase(fetchCountryByCode.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'An error occurred';
+        state.error = action.payload as string || 'An error occurred';
       });
   },
 });
