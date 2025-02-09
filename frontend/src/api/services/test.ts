@@ -1,6 +1,6 @@
-import { WeatherData } from '../../types/weather';
+import { TestResponse } from '../../types/test';
 import { api } from '../axios';
 
 export const testApi = {
-  getTestData: (): Promise<WeatherData> => api.get('/test/supabase'),
+  getTestData: (): Promise<TestResponse> => api.get('/test/supabase'),
 }; 
