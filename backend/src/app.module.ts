@@ -6,7 +6,12 @@ import { AppService } from './services/app.service';
 import { SupabaseService } from './services/supabase.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true })],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // Add any environment validation here if needed
+    }),
+  ],
   controllers: [AppController, TestController],
   providers: [AppService, SupabaseService],
 })
