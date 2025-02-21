@@ -170,3 +170,134 @@ If you encounter type compatibility issues between @nestjs packages:
 SwaggerModule.createDocument(app as any, config);
 SwaggerModule.setup("api", app as any, document);
 ```
+
+## 9. Additional Resources
+
+If you want to set up the full typing and descriptions for the test data, you can use the following example:
+
+```typescript
+import { ApiProperty } from "@nestjs/swagger";
+
+class TestItem {
+  @ApiProperty({
+    description: "Unique identifier",
+    example: "00e8be51-d20f-4fd7-b128-cd8eabe8f570",
+  })
+  id: string;
+
+  @ApiProperty({
+    description: "Creation timestamp",
+    example: "2025-01-10T02:04:25.298293+00:00",
+  })
+  created_at: string;
+
+  @ApiProperty({
+    description: "Item name",
+    example: "Test Item 1",
+  })
+  name: string;
+
+  @ApiProperty({
+    description: "Item description",
+    example: "This is the first test item",
+  })
+  description: string;
+
+  @ApiProperty({
+    description: "Active status",
+    example: true,
+  })
+  is_active: boolean;
+}
+
+export class TestResponseDto {
+  @ApiProperty({
+    description: "Connection status message",
+    example: "Connected to Supabase!",
+  })
+  status: string;
+
+  @ApiProperty({
+    description: "Data returned from Supabase",
+    type: [TestItem],
+    example: [
+      {
+        id: "00e8be51-d20f-4fd7-b128-cd8eabe8f570",
+        created_at: "2025-01-10T02:04:25.298293+00:00",
+        name: "Test Item 1",
+        description: "This is the first test item",
+        is_active: true,
+      },
+      {
+        id: "374310e9-3baf-4902-9e29-7a37742a4c75",
+        created_at: "2025-01-10T02:04:25.298293+00:00",
+        name: "Test Item 2",
+        description: "This is the second test item",
+        is_active: true,
+      },
+    ],
+    required: false,
+  })
+  data?: TestItem[];
+
+  @ApiProperty({
+    description: "Error message if connection fails",
+    example: "Failed to connect to database",
+    required: false,
+  })
+  error?: string;
+
+  @ApiProperty({
+    description: "Timestamp of the request",
+    example: "2025-02-21T00:57:48.098Z",
+  })
+  timestamp: string;
+}
+```
+
+This example demonstrates how to set up the full typing and descriptions for the test data.
+
+You will also need to update the `test.controller.ts` file to use the `TestResponseDto` class, with these changes:
+
+```typescript
+import { Controller, Get } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { TestResponseDto } from "../dto/test.dto";
+import { SupabaseService } from "../services/supabase.service";
+
+@ApiTags("test")
+@Controller("test")
+export class TestController {
+  constructor(private readonly supabaseService: SupabaseService) {}
+
+  @Get("supabase")
+  @ApiOperation({ summary: "Test Supabase connection" })
+  @ApiResponse({
+    status: 200,
+    description: "Returns test data successfully",
+    type: TestResponseDto,
+  })
+  async testConnection(): Promise<TestResponseDto> {
+    try {
+      const { data, error } = await this.supabaseService.supabase
+        .from("test")
+        .select("*")
+        .limit(50);
+
+      if (error) throw error;
+      return {
+        status: "Connected to Supabase!",
+        data,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      return {
+        status: "Connection failed",
+        data: [],
+        error: error.message,
+        timestamp: new Date().toISOString(),
+      };
+    }
+  }
+}
+```
