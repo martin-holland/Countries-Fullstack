@@ -1,3 +1,4 @@
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import LockIcon from "@mui/icons-material/Lock";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -30,6 +31,16 @@ export const Navigation = () => {
           >
             Protected Data
           </Button>
+          {user && (
+            <Button
+              color="inherit"
+              component={RouterLink}
+              to="/favorites"
+              startIcon={<FavoriteIcon />}
+            >
+              Favorites
+            </Button>
+          )}
           {user ? (
             <Button color="inherit" onClick={signOut}>
               Logout ({user.email})

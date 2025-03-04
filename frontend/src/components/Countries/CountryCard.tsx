@@ -6,12 +6,14 @@ import {
   Box,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Country } from "../../types/country";
+import { FavoriteButton } from "./FavoriteButton";
 
 interface CountryCardProps {
   country: Country;
@@ -28,9 +30,20 @@ export const CountryCard = ({ country }: CountryCardProps) => {
       .join(", ");
   };
 
+  const handleCardClick = () => {
+    navigate(`/countries/${urlName}`);
+  };
+
   return (
-    <Card sx={{ maxWidth: 345, height: "100%" }}>
-      <CardActionArea onClick={() => navigate(`/countries/${urlName}`)}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <CardActionArea onClick={handleCardClick}>
         <CardMedia
           component="img"
           height="140"
@@ -74,6 +87,9 @@ export const CountryCard = ({ country }: CountryCardProps) => {
           </Box>
         </CardContent>
       </CardActionArea>
+      <CardActions sx={{ mt: "auto", justifyContent: "flex-end" }}>
+        <FavoriteButton country={country} />
+      </CardActions>
     </Card>
   );
 };

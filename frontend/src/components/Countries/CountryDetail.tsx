@@ -24,6 +24,7 @@ import {
 } from "../../store/slices/countriesSlice";
 import { WeatherData } from "../../types/weather";
 import { WeatherInfo } from "../Weather/WeatherInfo";
+import { FavoriteButton } from "./FavoriteButton";
 
 export const CountryDetail = () => {
   const { name } = useParams<{ name: string }>();
@@ -120,9 +121,12 @@ export const CountryDetail = () => {
           alt={country.flags.alt || `Flag of ${country.name.common}`}
         />
         <CardContent>
-          <Typography variant="h4" gutterBottom>
-            {country.name.common}
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <Typography variant="h4" gutterBottom sx={{ flexGrow: 1 }}>
+              {country.name.common}
+            </Typography>
+            <FavoriteButton country={country} />
+          </Box>
           <Typography variant="h6" color="text.secondary" gutterBottom>
             {country.name.official}
           </Typography>

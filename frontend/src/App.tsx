@@ -5,6 +5,7 @@ import { Login } from "./components/Auth/Login";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import { CountriesList } from "./components/Countries/CountriesList";
 import { CountryDetail } from "./components/Countries/CountryDetail";
+import { Favorites } from "./components/Countries/Favorites";
 import { Navigation } from "./components/Navigation";
 import { ProtectedTestData } from "./components/ProtectedTestData";
 import { TestData } from "./components/TestData";
@@ -36,6 +37,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <ProtectedTestData />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/favorites"
+                element={
+                  <ProtectedRoute>
+                    <Favorites />
                   </ProtectedRoute>
                 }
               />
