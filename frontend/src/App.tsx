@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AiQueryAssistant } from "./components/AI/AiQueryAssistant";
 import { AuthRedirect } from "./components/Auth/AuthRedirect";
 import { Login } from "./components/Auth/Login";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
@@ -45,6 +46,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Favorites />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/ai-assistant"
+                element={
+                  <ProtectedRoute>
+                    <AiQueryAssistant />
                   </ProtectedRoute>
                 }
               />

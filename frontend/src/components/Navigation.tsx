@@ -1,5 +1,6 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LockIcon from "@mui/icons-material/Lock";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -39,6 +40,16 @@ export const Navigation = () => {
               startIcon={<FavoriteIcon />}
             >
               Favorites
+            </Button>
+          )}
+          {user && (
+            <Button
+              color="inherit"
+              component={RouterLink}
+              to="/ai-assistant"
+              startIcon={<SmartToyIcon />}
+            >
+              AI Assistant
             </Button>
           )}
           {user ? (
