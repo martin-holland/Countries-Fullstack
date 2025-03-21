@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import { CountriesList } from "./components/Countries/CountriesList";
 import { CountryDetail } from "./components/Countries/CountryDetail";
 import { Favorites } from "./components/Countries/Favorites";
+import GradientExample from "./components/GradientExample";
 import { Navigation } from "./components/Navigation";
 import { ProtectedTestData } from "./components/ProtectedTestData";
 import { TestData } from "./components/TestData";
@@ -32,6 +33,7 @@ function App() {
               <Route path="/countries" element={<CountriesList />} />
               <Route path="/countries/:name" element={<CountryDetail />} />
               <Route path="/test" element={<TestData />} />
+              <Route path="/theme" element={<GradientExample />} />
               <Route
                 path="/protected"
                 element={

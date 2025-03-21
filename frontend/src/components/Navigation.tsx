@@ -1,5 +1,6 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LockIcon from "@mui/icons-material/Lock";
+import PaletteIcon from "@mui/icons-material/Palette";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -9,7 +10,7 @@ export const Navigation = () => {
   const { user, signOut } = useAuth();
 
   return (
-    <AppBar position="static" sx={{ mb: 3 }}>
+    <AppBar position="static" color="gradient" sx={{ mb: 3 }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           My App
@@ -32,6 +33,14 @@ export const Navigation = () => {
           >
             Protected Data
           </Button>
+          <Button
+            color="inherit"
+            component={RouterLink}
+            to="/theme"
+            startIcon={<PaletteIcon />}
+          >
+            Theme
+          </Button>
           {user && (
             <Button
               color="inherit"
@@ -47,7 +56,12 @@ export const Navigation = () => {
               Logout ({user.email})
             </Button>
           ) : (
-            <Button color="inherit" component={RouterLink} to="/login">
+            <Button
+              variant="gradient"
+              color="primary"
+              component={RouterLink}
+              to="/login"
+            >
               Login
             </Button>
           )}
