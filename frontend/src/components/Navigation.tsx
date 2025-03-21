@@ -3,6 +3,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 export const Navigation = () => {
   const { user, signOut } = useAuth();
@@ -13,7 +14,7 @@ export const Navigation = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           My App
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
           <Button color="inherit" component={RouterLink} to="/countries">
             Countries
           </Button>
@@ -50,6 +51,7 @@ export const Navigation = () => {
               Login
             </Button>
           )}
+          <ThemeToggle />
         </Box>
       </Toolbar>
     </AppBar>

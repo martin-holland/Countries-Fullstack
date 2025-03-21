@@ -1,5 +1,9 @@
+import { PaletteMode } from "@mui/material";
 import { createContext } from "react";
 
-type ThemeContextType = undefined;
+type ThemeContextType = {
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+};
 
-export const ThemeContext = createContext<ThemeContextType>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
